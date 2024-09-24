@@ -12,7 +12,7 @@
     "node": true,
     "jest": true
   },
-  "ignorePatterns": [".eslintrc.json", "**.js"],
+  "ignorePatterns": [".eslintrc.json", "**.js", ".eslintcache", "node_modules"],
   "rules": {
     "prettier/prettier": "error",
     "@typescript-eslint/interface-name-prefix": "off",
