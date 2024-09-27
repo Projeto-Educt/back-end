@@ -6,6 +6,8 @@ RUN wget -O /usr/local/bin/dockerize https://github.com/jwilder/dockerize/releas
 
 WORKDIR /app
 
+ENV NODE_ENV=dev
+
 COPY package*.json .
 
 RUN npm install

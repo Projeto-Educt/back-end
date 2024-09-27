@@ -27,4 +27,5 @@ module.exports = {
   passWithNoTests: true,
   noStackTrace: true,
   testSequencer: './test-sequencer.js',
+  testMatch: ['**/*.spec.ts'],
 };
