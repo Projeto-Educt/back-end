@@ -35,3 +35,6 @@ lerna-debug.log*
 !.vscode/extensions.json
 tsconfig.build.tsbuildinfo
 .eslintcache
+.env.dev
+.env.test
+.env
