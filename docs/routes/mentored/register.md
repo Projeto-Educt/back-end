@@ -46,3 +46,11 @@ O corpo da requisição deve ser um JSON com os seguintes campos:
   ```
 - **500 ServerError**  
   Indica que houve um erro no servidor ao processar a requisição.
+
+
+</br>
+</br>
+</br>
+</br>
+
+**[Voltar ao Readme](../../../README.md)**

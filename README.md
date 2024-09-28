@@ -14,11 +14,14 @@ graduandos, oferecendo mentorias onde os estudantes possam tirar dúvidas relaci
   - [Metodos de inicialização da aplicação](./docs/initial-application.md)
 
 ## Testes
-  - [execução dos testes](./docs/tests.md)
+  - [Execução dos testes](./docs/tests.md)
+
+## Arquitetura
+  - [Documentação da arquitetura utilizada no projeto](./docs/architecture.md)
 
 ## Rotas
   - A aplicação tambem esta documentada no swagger podendo ser acessada na rota `/api`
 
   | Nome                          | Rota                          | File                                                                  | 
   |-------------------------------|-------------------------------|-----------------------------------------------------------------------|
-  | Registro de Mentorado           | Post `/mentored`                  |[documentação da rota](./docs/routes/mentored/register.md)|
+  | Registro de Mentorado           | Post `/mentored`                  |[Documentação da rota](./docs/routes/mentored/register.md)|

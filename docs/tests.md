@@ -25,3 +25,10 @@ $ npm run test:integration
 # executa apenas os testes e2e.
 $ npm run test:e2e
 ```
+
+</br>
+</br>
+</br>
+</br>
+
+**[Voltar ao Readme](../README.md)**
