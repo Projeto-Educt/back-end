@@ -19,7 +19,16 @@ module.exports = {
       },
     ],
   },
-  collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.ts',
+    '!<rootDir>/**/index.ts',
+    '!<rootDir>/**/type/*.ts',
+    '!<rootDir>/**/types/*.ts',
+    '!<rootDir>/**/config/*.ts',
+    '!<rootDir>/**/configs/*.ts',
+    '!<rootDir>/src/**/*.module.ts',
+    '!<rootDir>/src/nest/main.ts',
+  ],
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1',
   },
