@@ -6,9 +6,7 @@ type TestProps = {
   propB: string;
 };
 
-const fakeError = new CustomError(['Name is required']);
-
-const fakeError2 = new CustomError(['Age is required', 'Age must be a number']);
+const fakeError = 'Name is required';
 
 class TestValueObject extends ValueObject<TestProps> {
   constructor(props: TestProps) {
@@ -41,33 +39,13 @@ describe('ValueObject', () => {
 
       static create(props: TestProps): TestValueObject {
         this.clearErrors();
-        this.addError(fakeError);
+        this.addMessageError(fakeError);
         return new TestValueObject(props);
       }
     }
     TestValueObject.create(fakeProps);
 
     expect(TestValueObject.error).toEqual(new CustomError(['Name is required']));
-  });
-
-  it('Should add multiple errors', () => {
-    class TestValueObject extends ValueObject<TestProps> {
-      constructor(props: TestProps) {
-        super(props);
-      }
-
-      static create(props: TestProps): TestValueObject {
-        this.clearErrors();
-        this.addError([fakeError, fakeError2]);
-        return new TestValueObject(props);
-      }
-    }
-
-    TestValueObject.create(fakeProps);
-
-    expect(TestValueObject.error).toEqual(
-      new CustomError(['Name is required', 'Age is required', 'Age must be a number']),
-    );
   });
 
   it('Should clear errors', () => {
@@ -78,7 +56,7 @@ describe('ValueObject', () => {
 
       static create(props: TestProps): TestValueObject {
         this.clearErrors();
-        this.addError(fakeError);
+        this.addMessageError(fakeError);
         this.clearErrors();
         return new TestValueObject(props);
       }

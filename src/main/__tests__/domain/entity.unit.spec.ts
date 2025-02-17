@@ -58,7 +58,7 @@ describe('Entity', () => {
     expect(EntityStub.error).toBeNull();
   });
 
-  describe('addError()', () => {
+  describe('addCustomError()', () => {
     it('Should add an error', () => {
       class EntityStub extends Entity<Props> {
         constructor(props: Props, id?: UniqueEntityId) {
@@ -67,7 +67,7 @@ describe('Entity', () => {
 
         static create(props: Props): EntityStub {
           this.clearErrors();
-          EntityStub.addError(fakeError);
+          EntityStub.addCustomError(fakeError);
           const entity = new EntityStub(props);
 
           return entity;
@@ -87,7 +87,7 @@ describe('Entity', () => {
 
         static create(props: Props): EntityStub {
           this.clearErrors();
-          EntityStub.addError([fakeError, fakeError2, fakeError3]);
+          EntityStub.addCustomError([fakeError, fakeError2, fakeError3]);
           const entity = new EntityStub(props);
 
           return entity;
@@ -118,7 +118,7 @@ describe('Entity', () => {
 
         static create(props: Props): EntityStub {
           this.clearErrors();
-          EntityStub.addError(fakeError);
+          EntityStub.addCustomError(fakeError);
           EntityStub.clearErrors();
           const entity = new EntityStub(props);
 

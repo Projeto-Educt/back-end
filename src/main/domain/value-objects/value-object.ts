@@ -1,9 +1,9 @@
 import { CustomError } from '@/main/errors';
 import { deepFreeze } from '@/main/helpers';
 
-type Props = Record<string, any> | string | number;
+type Props = Record<string, any> | string | number | boolean;
 
-export abstract class ValueObject<T extends Props> {
+export abstract class ValueObject<T extends Props = string> {
   private readonly _value: T;
   private static _messagesError: string[] = [];
 
@@ -17,16 +17,16 @@ export abstract class ValueObject<T extends Props> {
 
   static get error(): CustomError | null {
     if (this._messagesError.length) {
-      return new CustomError(this._messagesError);
+      return new CustomError([...new Set(this._messagesError)]);
     }
 
     return null;
   }
 
-  protected static addError(error: CustomError[] | CustomError): void {
-    Array.isArray(error)
-      ? this._messagesError.push(...error.flatMap(e => e.messages))
-      : this._messagesError.push(...error.messages);
+  protected static addMessageError(messages: string[] | string): void {
+    Array.isArray(messages)
+      ? this._messagesError.push(...messages.flatMap(message => message))
+      : this._messagesError.push(messages);
   }
 
   protected static clearErrors(): void {

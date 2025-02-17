@@ -2,7 +2,9 @@ import type { Either } from '@/main/errors';
 import { CustomError } from '@/main/errors';
 import { UniqueEntityId } from './value-objects/unique-entity-id';
 
-export abstract class Entity<T> {
+type Props = Record<string, any>;
+
+export abstract class Entity<T extends Props> {
   private static _messagesError: string[] = [];
   private readonly _props: T;
   readonly id: UniqueEntityId;
@@ -29,7 +31,7 @@ export abstract class Entity<T> {
     const errors: CustomError[] = values.filter(value => value.isLeft()).map(value => value.value);
 
     if (errors.length) {
-      this.addError(errors);
+      this.addCustomError(errors);
     }
   }
 
@@ -37,10 +39,16 @@ export abstract class Entity<T> {
     return this._props;
   }
 
-  protected static addError(error: CustomError[] | CustomError): void {
+  protected static addCustomError(error: CustomError[] | CustomError): void {
     Array.isArray(error)
       ? this._messagesError.push(...error.flatMap(e => e.messages))
       : this._messagesError.push(...error.messages);
+  }
+
+  protected static addMessageError(messages: string[] | string): void {
+    Array.isArray(messages)
+      ? this._messagesError.push(...messages.flatMap(message => message))
+      : this._messagesError.push(messages);
   }
 
   protected static clearErrors(): void {
