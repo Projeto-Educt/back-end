@@ -4,19 +4,16 @@ RUN wget -O /usr/local/bin/dockerize https://github.com/jwilder/dockerize/releas
   && tar -C /usr/local/bin -xzvf /usr/local/bin/dockerize \
   && chmod +x /usr/local/bin/dockerize
 
+RUN npm install -g pnpm
+
 WORKDIR /app
 
 ENV NODE_ENV=dev
 
-COPY package*.json .
-
-RUN npm install
-
 COPY . .
-
 
 EXPOSE 3000
 
 ENTRYPOINT ["dockerize", "-wait", "tcp://postgres_educt:5432"]
 
-CMD ["npm", "run", "start:dev"]
+CMD ["sh", "-c", "pnpm install && pnpm start:dev"]

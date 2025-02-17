@@ -38,3 +38,9 @@ tsconfig.build.tsbuildinfo
 .env.dev
 .env.test
 .env
+
+pnpm-lock.yaml
+.pnpm-store
+package-lock.json
+bun.lock
+yarn.lock
