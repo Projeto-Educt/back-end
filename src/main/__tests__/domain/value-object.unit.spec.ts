@@ -66,4 +66,20 @@ describe('ValueObject', () => {
 
     expect(TestValueObject.error).toBeNull();
   });
+  it('Should add more one errors', () => {
+    class TestValueObject extends ValueObject<TestProps> {
+      constructor(props: TestProps) {
+        super(props);
+      }
+      static create(props: TestProps): TestValueObject {
+        this.clearErrors();
+        this.addMessageError([fakeError, fakeError]);
+        return new TestValueObject(props);
+      }
+    }
+
+    TestValueObject.create(fakeProps);
+
+    expect(TestValueObject.error).toEqual(new CustomError(['Name is required']));
+  });
 });

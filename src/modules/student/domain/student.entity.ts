@@ -15,7 +15,7 @@ export type CreateStudentProps = {
   password: string;
 };
 
-export class studentEntity extends Entity<studentEntityProps> {
+export class StudentEntity extends Entity<studentEntityProps> {
   readonly name: string = this.props.name.value;
   readonly nameVo: NameVo = this.props.name;
   readonly email: string = this.props.email;
@@ -25,7 +25,7 @@ export class studentEntity extends Entity<studentEntityProps> {
     super(props, id);
   }
 
-  static create(props: CreateStudentProps): studentEntity {
+  static create(props: CreateStudentProps): StudentEntity {
     this.clearErrors();
 
     const nameOrError = NameVo.create(props.name);
@@ -35,7 +35,7 @@ export class studentEntity extends Entity<studentEntityProps> {
     this.verifyCustomErrors([nameOrError]);
     this.throwErrorsIfExists();
 
-    return new studentEntity(
+    return new StudentEntity(
       {
         name: nameOrError.value as NameVo,
         email,

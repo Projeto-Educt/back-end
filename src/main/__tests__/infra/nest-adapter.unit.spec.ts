@@ -1,4 +1,4 @@
-import { NestRouterAdapter } from '@/main/adapters/nest-adapter';
+import { NestRouterAdapter } from '@/main/infra/nest.infra';
 import type { ControllerContractPresentation } from '@/main/application'; // O caminho para a sua interface de contrato
 import { Presenter } from '@/main/application'; // O caminho para o seu presenter
 import type { ControllerRequestType } from '@/main/types'; // O caminho para seus tipos

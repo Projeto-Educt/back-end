@@ -4,7 +4,7 @@ import { UniqueEntityId } from './value-objects/unique-entity-id';
 
 type Props = Record<string, any>;
 
-export abstract class Entity<T extends Props> {
+export abstract class Entity<T extends Props = Props> {
   private static _messagesError: string[] = [];
   private readonly _props: T;
   readonly id: UniqueEntityId;

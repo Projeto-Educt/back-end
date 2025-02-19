@@ -1,11 +1,11 @@
 import { CustomError } from '@/main/errors';
 import { NameVo } from '../../domain';
-import { studentEntity } from '../../domain/student.entity';
+import { StudentEntity } from '../../domain/student.entity';
 
 describe('StudentEntity', () => {
   it('should throw erros', () => {
     try {
-      studentEntity.create({
+      StudentEntity.create({
         name: '',
         email: '',
         password: '',
@@ -29,9 +29,9 @@ describe('StudentEntity', () => {
       password: '   @Password123    ',
     };
 
-    const student = studentEntity.create(data);
+    const student = StudentEntity.create(data);
 
-    expect(student).toBeInstanceOf(studentEntity);
+    expect(student).toBeInstanceOf(StudentEntity);
 
     expect(student.toJSON()).toEqual({
       id: student.id.value,

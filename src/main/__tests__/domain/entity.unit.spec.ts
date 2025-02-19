@@ -142,4 +142,45 @@ describe('Entity', () => {
       });
     });
   });
+
+  describe('addMessageError', () => {
+    it('Should add a message error', () => {
+      class EntityStub extends Entity<Props> {
+        constructor(props: Props, id?: UniqueEntityId) {
+          super(props, id);
+        }
+
+        static create(props: Props): EntityStub {
+          this.clearErrors();
+          EntityStub.addMessageError('Name is required');
+          const entity = new EntityStub(props);
+
+          return entity;
+        }
+      }
+
+      EntityStub.create(fakeProps);
+
+      expect(EntityStub.error).toEqual(new CustomError(['Name is required']));
+    });
+    it('Should add many messages error', () => {
+      class EntityStub extends Entity<Props> {
+        constructor(props: Props, id?: UniqueEntityId) {
+          super(props, id);
+        }
+
+        static create(props: Props): EntityStub {
+          this.clearErrors();
+          EntityStub.addMessageError(['Name is required', 'Age is required']);
+          const entity = new EntityStub(props);
+
+          return entity;
+        }
+      }
+
+      EntityStub.create(fakeProps);
+
+      expect(EntityStub.error).toEqual(new CustomError(['Name is required', 'Age is required']));
+    });
+  });
 });

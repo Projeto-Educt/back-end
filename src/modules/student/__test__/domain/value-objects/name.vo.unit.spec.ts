@@ -1,5 +1,5 @@
 import { CustomError } from '@/main/errors';
-import { NameVo } from '@/modules/mentee/domain/value-objects/name.vo';
+import { NameVo } from '@/modules/student/domain/value-objects/name.vo';
 
 describe('NameVo', () => {
   it('should return all erros', () => {
