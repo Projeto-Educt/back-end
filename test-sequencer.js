@@ -15,7 +15,6 @@ class CustomSequencer extends Sequencer {
     const processLog = process.argv;
     if (processLog.includes('some_path_name')) console.log('teste');
 
-
     return this.sortByTestType(tests);
   }
 
@@ -27,7 +26,7 @@ class CustomSequencer extends Sequencer {
    */
   sortByTestType(tests) {
     const unitTests = tests.filter(test => test.path.includes('unit'));
-    const integrationTests = tests.filter(test => test.path.includes('integration'));
+    const integrationTests = tests.filter(test => test.path.includes('int'));
     const e2eTests = tests.filter(test => test.path.includes('e2e'));
 
     return [...unitTests, ...integrationTests, ...e2eTests];

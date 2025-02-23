@@ -1,7 +1,7 @@
 import { type INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-export const swaggerSetup = (app: INestApplication<any>): void => {
+export const swaggerSetup = (app: INestApplication<any>, path: string = ''): void => {
   const config = new DocumentBuilder()
     .setTitle('Routinely')
     .setVersion('v-2')
@@ -13,5 +13,5 @@ export const swaggerSetup = (app: INestApplication<any>): void => {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('', app, document);
+  SwaggerModule.setup(path, app, document);
 };

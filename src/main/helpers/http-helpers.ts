@@ -1,4 +1,5 @@
 import type { CustomError } from '../errors';
+import type { ControllerResponseType } from '../types';
 
 type HttpResponseError = {
   statusCode: number;
@@ -23,6 +24,33 @@ export const badRequest = (error: CustomError): CustomHttpException => {
     error: 'Bad Request',
     message: error.messages,
   });
+};
+
+export const ok = (body?: any): ControllerResponseType => {
+  return {
+    statusCode: 200,
+    ...(body && { body }),
+  };
+};
+
+export const create = (body?: any): ControllerResponseType => {
+  return {
+    statusCode: 201,
+    ...(body && { body }),
+  };
+};
+
+export const noContent = (): ControllerResponseType => {
+  return {
+    statusCode: 204,
+  };
+};
+
+export const redirect = (url: string): ControllerResponseType => {
+  return {
+    statusCode: 302,
+    body: { url },
+  };
 };
 
 export const unauthorized = (error: CustomError): CustomHttpException => {

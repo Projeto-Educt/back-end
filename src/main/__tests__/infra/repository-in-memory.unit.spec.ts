@@ -1,6 +1,6 @@
 import { Entity } from '@/main/domain';
 import { CustomError } from '@/main/errors';
-import { RepositoryInMemory } from '@/main/infra/repository-in-memory.infra';
+import { RepositoryInMemory } from '@/main/infra/repositories/repository-in-memory.infra';
 
 type Props = {
   name: string;

@@ -1,7 +1,7 @@
 import { CustomError } from '@/main/errors';
 import type { DispatcherContract } from '@/main/events';
 import { CustomHttpException } from '@/main/helpers';
-import { RepositoryInMemory } from '@/main/infra/repository-in-memory.infra';
+import { RepositoryInMemory } from '@/main/infra/repositories/repository-in-memory.infra';
 import { RegisterStudentUseCase } from '@/modules/student/application/usecases/register-student.usecase';
 import { StudentEntity } from '@/modules/student/domain/student.entity';
 import type { RegisteredStudentEvent } from '@/modules/student/events';

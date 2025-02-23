@@ -7,8 +7,8 @@ switch (nodeEnv.toLowerCase()) {
   case 'test':
     dotenv.config({ path: path.join(__dirname, '../../../.env.test') });
     break;
-  case 'dev':
-    dotenv.config({ path: path.join(__dirname, '../../../.env.dev') });
+  case 'production':
+    dotenv.config({ path: path.join(__dirname, '../../../.env.prod') });
     break;
   default:
     dotenv.config({ path: path.join(__dirname, '../../../.env') });
@@ -29,4 +29,8 @@ export const EMAILS_ENV = {
 export const STUDENT_ENV = {
   backEndUrl: process.env.BACK_END_URL_CONFIRM_EMAIL || '',
   secretKeyCrypto: process.env.SECRET_KEY_CRYPTO_EMAIL || '',
+};
+
+export const DATABASE_ENV = {
+  dbUrl: process.env.DATABASE_URL || '',
 };

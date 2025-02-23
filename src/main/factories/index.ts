@@ -1,1 +1,1 @@
-export * from './adapter/mailing.factory';
+export * from './infra/mailing.factory';

@@ -1,6 +1,6 @@
-import type { Entity } from '../domain/entity';
-import { CustomError } from '../errors';
-import type { FindFieldsProps, MemoryRepositoryContract } from './contracts/repository.contracts';
+import type { Entity } from '@/main/domain';
+import { CustomError } from '@/main/errors';
+import type { FindFieldsProps, MemoryRepositoryContract } from '../contracts';
 
 export abstract class RepositoryInMemory<E extends Entity> implements MemoryRepositoryContract<E> {
   data: E[] = [];
