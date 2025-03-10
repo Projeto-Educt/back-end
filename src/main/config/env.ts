@@ -26,7 +26,7 @@ export const EMAILS_ENV = {
   smtpPort: Number(process.env.SMTP_PORT) || 0,
 };
 
-export const STUDENT_ENV = {
+export const USER_ENV = {
   backEndUrl: process.env.BACK_END_URL_CONFIRM_EMAIL || '',
   secretKeyCrypto: process.env.SECRET_KEY_CRYPTO_EMAIL || '',
 };

@@ -9,7 +9,6 @@ export const swaggerSetup = (app: INestApplication<any>, path: string = ''): voi
       type: 'http',
       description: 'Use o `token` adquirido ao acessar a conta',
     })
-    .addTag('Customer')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
