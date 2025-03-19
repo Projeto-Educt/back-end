@@ -10,6 +10,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "nest start",
     "dev:build": "docker-compose up --build",
+    "dev:build-d": "docker-compose up -d --build",
     "dev:kill": "docker-compose stop",
     "dev": "docker-compose up",
     "start:dev": "nest start --watch",

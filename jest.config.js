@@ -36,6 +36,7 @@ module.exports = {
     '!<rootDir>/**/events/**/*.events.ts',
     '!<rootDir>/src/**/*.module.ts',
     '!<rootDir>/src/nest/main.ts',
+    '!<rootDir>/src/nest/**/dto/**',
   ],
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1',

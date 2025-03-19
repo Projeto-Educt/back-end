@@ -30,4 +30,13 @@ describe('user routes', () => {
       })
       .expect(204);
   });
+
+  it('Should resend email confirmation', async () => {
+    await server
+      .post('/user/resend-register-email?callbackUrl=http://localhost:3000')
+      .send({
+        email: 'johndoe@example.com',
+      })
+      .expect(204);
+  });
 });

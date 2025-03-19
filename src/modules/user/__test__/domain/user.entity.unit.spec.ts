@@ -22,7 +22,7 @@ describe('UserEntity', () => {
     }
   });
 
-  it('should return correct instance', () => {
+  it('should create correct instance to new user', () => {
     const data = {
       name: '   John Doe    ',
       email: '    johndoe@example.com   ',
@@ -38,10 +38,71 @@ describe('UserEntity', () => {
       name: expect.any(NameVo),
       email: data.email.trim(),
       password: data.password.trim(),
+      isActive: false,
     });
     expect(user.name).toBe(data.name.trim());
     expect(user.email).toBe(data.email.trim());
     expect(user.password).toBe(data.password.trim());
     expect(user.nameVo).toBeInstanceOf(NameVo);
+    expect(user.isActive).toBe(false);
+  });
+
+  it('should create correct instance to update user', () => {
+    const data = {
+      id: '123e4567-e89b-12d3-a456-426614174000',
+      name: '   John Doe    ',
+      email: '    johndoe@example.com   ',
+      password: '   @Password123    ',
+      isActive: true,
+    };
+
+    const user = UserEntity.create(data);
+
+    expect(user.toJSON()).toEqual({
+      id: user.id.value,
+      name: expect.any(NameVo),
+      email: data.email.trim(),
+      password: data.password.trim(),
+      isActive: true,
+    });
+    expect(user.name).toBe(data.name.trim());
+    expect(user.email).toBe(data.email.trim());
+    expect(user.password).toBe(data.password.trim());
+    expect(user.nameVo).toBeInstanceOf(NameVo);
+    expect(user.isActive).toBe(true);
+  });
+
+  it('should activate user', () => {
+    const data = {
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: '@Password123',
+    };
+
+    const user = UserEntity.create(data);
+
+    expect(user.isActive).toBe(false);
+
+    user.activate();
+
+    expect(user.isActive).toBe(true);
+  });
+
+  it('should deactivate user', () => {
+    const data = {
+      id: '123e4567-e89b-12d3-a456-426614174000',
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: '@Password123',
+      isActive: true,
+    };
+
+    const user = UserEntity.create(data);
+
+    expect(user.isActive).toBe(true);
+
+    user.deactivate();
+
+    expect(user.isActive).toBe(false);
   });
 });

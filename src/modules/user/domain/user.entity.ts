@@ -6,6 +6,7 @@ export type userEntityProps = {
   name: NameVo;
   email: string;
   password: string;
+  isActive: boolean;
 };
 
 export type CreateUserProps = {
@@ -13,6 +14,7 @@ export type CreateUserProps = {
   name: string;
   email: string;
   password: string;
+  isActive?: boolean;
 };
 
 export class UserEntity extends Entity<userEntityProps> {
@@ -20,6 +22,7 @@ export class UserEntity extends Entity<userEntityProps> {
   readonly nameVo: NameVo = this.props.name;
   readonly email: string = this.props.email;
   readonly password: string = this.props.password;
+  isActive: boolean = this.props.isActive;
 
   protected constructor(props: userEntityProps, id?: UniqueEntityId) {
     super(props, id);
@@ -28,8 +31,10 @@ export class UserEntity extends Entity<userEntityProps> {
   static create(props: CreateUserProps): UserEntity {
     this.clearErrors();
 
+    props.isActive = props.isActive || false;
+
     const nameOrError = NameVo.create(props.name);
-    const email = this._verifyEmail(props.email);
+    const email = this._validateEmail(props.email);
     const password = this._verifyPassword(props.password);
 
     this.verifyCustomErrors([nameOrError]);
@@ -40,12 +45,13 @@ export class UserEntity extends Entity<userEntityProps> {
         name: nameOrError.value as NameVo,
         email,
         password,
+        isActive: props.id ? props.isActive : false,
       },
       UniqueEntityId.create(props.id),
     );
   }
 
-  private static _verifyEmail(email: string = ''): string {
+  private static _validateEmail(email: string = ''): string {
     const emailTrim = email.trim();
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -70,5 +76,15 @@ export class UserEntity extends Entity<userEntityProps> {
       );
 
     return passwordTrim;
+  }
+
+  public activate() {
+    this.isActive = true;
+    this.props.isActive = true;
+  }
+
+  public deactivate() {
+    this.isActive = false;
+    this.props.isActive = false;
   }
 }

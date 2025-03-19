@@ -2,6 +2,7 @@
  * @jest-environment ./src/main/config/jest.environment.ts
  */
 
+import { CustomHttpException } from '@/main/helpers';
 import { ClientDb } from '@/main/helpers/client-db--helper';
 import type { PrismaClient } from '@prisma/client';
 import type { UserRepositoryContract } from '../../contracts';
@@ -40,6 +41,7 @@ describe('UserRepository', () => {
         name: 'John Doe',
         email: 'johndoe@example.com',
         password: '@Password123',
+        isActive: true,
       },
     });
 
@@ -60,17 +62,38 @@ describe('UserRepository', () => {
 
     await repository.create(user);
 
-    const createduser = await clientDb.user.findFirst({
+    const createdUser = await clientDb.user.findFirst({
       where: {
         email: 'johndoe@example.com',
       },
     });
 
-    expect(createduser).toEqual({
+    expect(createdUser).toEqual({
       id: expect.any(String),
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '@Password123',
+      educationLevelId: null,
+      interestCourseId: null,
+      interestUniversityId: null,
+      isActive: false,
+      profile: null,
     });
+  });
+
+  it('Should throw error if user not found in FindOne', async () => {
+    try {
+      await repository.findOne({
+        field: 'email',
+        values: 'johndoe@example.com',
+      });
+    } catch (error) {
+      expect(error).toBeInstanceOf(CustomHttpException);
+      expect(error as CustomHttpException).toEqual({
+        statusCode: 404,
+        message: ['Usuário não encontrado.'],
+        error: 'Not Found',
+      });
+    }
   });
 });
