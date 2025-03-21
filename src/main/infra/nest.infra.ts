@@ -1,6 +1,6 @@
 import type { ControllerContractPresentation } from '@/main/application';
 import { Presenter } from '@/main/application';
-import type { ControllerRequestType } from '@/main/types';
+import type { ControllerRequestType, ControllerResponseType } from '@/main/types';
 import type { Request, Response } from 'express';
 
 export class NestRouterAdapter {
@@ -23,8 +23,11 @@ export class NestRouterAdapter {
     };
   }
 
-  private _responseToNest(response: any, res: Response, accept?: string) {
+  private _responseToNest(response: ControllerResponseType, res: Response, accept?: string) {
     const presenterFormat = Presenter.execute(response.body, accept);
+    if (response.statusCode >= 300 && response.statusCode < 400) {
+      return res.redirect(response.body.url);
+    }
     return res.status(response.statusCode).send(presenterFormat);
   }
 }

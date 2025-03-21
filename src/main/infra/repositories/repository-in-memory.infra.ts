@@ -32,4 +32,13 @@ export abstract class RepositoryInMemory<E extends Entity> implements MemoryRepo
     }
     return Promise.resolve(this.data);
   }
+
+  update(entity: E): Promise<void> {
+    const index = this.data.findIndex(item => item.id === entity.id);
+    if (index === -1) {
+      throw new CustomError(`Entity, not found`);
+    }
+    this.data[index] = entity;
+    return Promise.resolve();
+  }
 }

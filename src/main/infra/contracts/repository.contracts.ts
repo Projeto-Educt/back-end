@@ -21,8 +21,13 @@ export interface FindAllRepoContract<E extends Entity> {
   findAll(props?: FindFieldsProps): Promise<E[]>;
 }
 
+export interface UpdateRepoContract<E extends Entity> {
+  update(entity: E): Promise<void>;
+}
+
 export interface MemoryRepositoryContract<E extends Entity>
   extends CreateRepoContract<E>,
     FindOneRepoContract<E>,
     FindOneOrNullRepoContract<E>,
-    FindAllRepoContract<E> {}
+    FindAllRepoContract<E>,
+    UpdateRepoContract<E> {}

@@ -1,12 +1,13 @@
 import { CustomError } from '@/main/errors';
 import { notFound } from '@/main/helpers';
-import type { ClientDb } from '@/main/helpers/client-db--helper';
+import type { ClientDb } from '@/main/helpers/client-db-helper';
 import type { FindFieldsProps } from '@/main/infra';
 import type { UserRepositoryContract } from '@/modules/user/contracts';
 import { UserEntity } from '@/modules/user/domain/user.entity';
 
 export class UserRepositoryInfra implements UserRepositoryContract {
   constructor(private readonly clientDb: ClientDb) {}
+
   async findOneOrNull(props: FindFieldsProps): Promise<UserEntity | null> {
     const user = await this.clientDb.user.findFirst({
       where: {
@@ -24,9 +25,11 @@ export class UserRepositoryInfra implements UserRepositoryContract {
 
     return user ? UserEntity.create(user) : null;
   }
+
   async create(entity: UserEntity): Promise<void> {
     await this.clientDb.user.create({
       data: {
+        id: entity.id.value,
         name: entity.name,
         email: entity.email,
         password: entity.password,
@@ -56,5 +59,19 @@ export class UserRepositoryInfra implements UserRepositoryContract {
     }
 
     return UserEntity.create(user);
+  }
+
+  async update(entity: UserEntity): Promise<void> {
+    await this.clientDb.user.update({
+      where: {
+        id: entity.id.value,
+      },
+      data: {
+        name: entity.name,
+        email: entity.email,
+        password: entity.password,
+        isActive: entity.isActive,
+      },
+    });
   }
 }

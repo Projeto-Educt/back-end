@@ -1,4 +1,4 @@
-import { ClientDb as sut } from '@/main/helpers/client-db--helper';
+import { ClientDb as sut } from '@/main/helpers/client-db-helper';
 import { PrismaClient } from '@prisma/client';
 
 let prisma: PrismaClient;

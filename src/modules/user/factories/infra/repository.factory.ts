@@ -1,4 +1,4 @@
-import { ClientDb } from '@/main/helpers/client-db--helper';
+import { ClientDb } from '@/main/helpers/client-db-helper';
 import type { UserRepositoryContract } from '@/modules/user/contracts';
 import { UserRepositoryInfra } from '@/modules/user/infra/repository/user-repository.infra';
 

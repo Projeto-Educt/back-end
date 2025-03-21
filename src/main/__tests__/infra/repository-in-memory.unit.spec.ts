@@ -90,4 +90,13 @@ describe('RepositoryInMemory', () => {
       expect(result).toEqual(entities.filter(entity => entity.name === 'John Doe'));
     });
   });
+
+  it('should be able to update an entity', async () => {
+    const entity = EntityTester.create({ name: 'John Doe', email: 'any_mail@mail.com', age: 30 });
+    await repository.create(entity);
+    entity.name = 'Mary Doe';
+    await repository.update(entity);
+    const result = repository.data;
+    expect(result).toEqual([entity]);
+  });
 });

@@ -77,7 +77,7 @@ describe('SendEmailRegisteredUserHandler', () => {
     handler.handle(event);
 
     expect(cryptographyMock.encrypt).toHaveBeenCalledWith(
-      `${eventPayload.email}-${eventPayload.callbackUrl}`,
+      `${eventPayload.email}--${eventPayload.callbackUrl}`,
     );
   });
 

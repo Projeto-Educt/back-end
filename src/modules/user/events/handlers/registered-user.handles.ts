@@ -20,7 +20,7 @@ export class SendEmailRegisteredUserHandler implements HandlerContract<Registere
   handle(event: RegisteredUserEvent): void {
     const { email, callbackUrl, ...rest } = event.getPayload();
 
-    const url = `${this.backEndUrl}/?${this.cryptography.encrypt(`${email}-${callbackUrl}`)}`;
+    const url = `${this.backEndUrl}/?${this.cryptography.encrypt(`${email}--${callbackUrl}`)}`;
 
     this.mailingService.send({
       to: email,

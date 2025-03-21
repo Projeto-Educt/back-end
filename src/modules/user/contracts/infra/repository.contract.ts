@@ -2,6 +2,7 @@ import type {
   CreateRepoContract,
   FindOneOrNullRepoContract,
   FindOneRepoContract,
+  UpdateRepoContract,
 } from '@/main/infra/contracts/repository.contracts';
 import type { UserEntity } from '../../domain/user.entity';
 
@@ -13,6 +14,9 @@ export interface RegisterUserRepoContract
 
 export interface ResendEmailRegisterUserRepoContract extends FindOneRepoContract<E> {}
 
+export interface ActiveUserRepoContract extends FindOneRepoContract<E>, UpdateRepoContract<E> {}
+
 export interface UserRepositoryContract
   extends RegisterUserRepoContract,
-    ResendEmailRegisterUserRepoContract {}
+    ResendEmailRegisterUserRepoContract,
+    ActiveUserRepoContract {}

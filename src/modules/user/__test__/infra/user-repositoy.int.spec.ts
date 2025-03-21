@@ -3,7 +3,7 @@
  */
 
 import { CustomHttpException } from '@/main/helpers';
-import { ClientDb } from '@/main/helpers/client-db--helper';
+import { ClientDb } from '@/main/helpers/client-db-helper';
 import type { PrismaClient } from '@prisma/client';
 import type { UserRepositoryContract } from '../../contracts';
 import { UserEntity } from '../../domain/user.entity';
@@ -64,12 +64,12 @@ describe('UserRepository', () => {
 
     const createdUser = await clientDb.user.findFirst({
       where: {
-        email: 'johndoe@example.com',
+        id: user.id.value,
       },
     });
 
     expect(createdUser).toEqual({
-      id: expect.any(String),
+      id: user.id.value,
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '@Password123',
@@ -95,5 +95,43 @@ describe('UserRepository', () => {
         error: 'Not Found',
       });
     }
+  });
+
+  it('Should update a user', async () => {
+    const user = UserEntity.create({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: '@Password123',
+    });
+
+    await repository.create(user);
+
+    const updatedUser = UserEntity.create({
+      id: user.id.value,
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: '@Password123',
+      isActive: true,
+    });
+
+    await repository.update(updatedUser);
+
+    const userUpdated = await clientDb.user.findFirst({
+      where: {
+        email: 'johndoe@example.com',
+      },
+    });
+
+    expect(userUpdated).toEqual({
+      id: expect.any(String),
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: '@Password123',
+      educationLevelId: null,
+      interestCourseId: null,
+      interestUniversityId: null,
+      isActive: true,
+      profile: null,
+    });
   });
 });
