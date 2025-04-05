@@ -26,8 +26,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "prepare": "husky",
     "prisma:seed": "ts-node src/main/infra/repositories/prisma/seeds/index.ts",
-    "prisma:init": "npm run prisma generate && npm run prisma deploy && npm run prisma seed",
-    "start:prod": "npm run prisma:init && node dist/main"
+    "prisma:init": "npx prisma generate && npx prisma migrate deploy && npm run prisma:seed",
+    "start:prod": "NODE_ENV=production npm run prisma:init && node dist/nest/main"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
