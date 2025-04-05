@@ -7,8 +7,8 @@ switch (nodeEnv.toLowerCase()) {
   case 'test':
     dotenv.config({ path: path.join(__dirname, '../../../.env.test') });
     break;
-  case 'production':
-    dotenv.config({ path: path.join(__dirname, '../../../.env.prod') });
+  case 'dev':
+    dotenv.config({ path: path.join(__dirname, '../../../.env.dev') });
     break;
   default:
     dotenv.config({ path: path.join(__dirname, '../../../.env') });
