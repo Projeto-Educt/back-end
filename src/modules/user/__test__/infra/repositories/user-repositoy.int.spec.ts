@@ -5,9 +5,9 @@
 import { CustomHttpException } from '@/main/helpers';
 import { ClientDb } from '@/main/helpers/client-db-helper';
 import type { PrismaClient } from '@prisma/client';
-import type { UserRepositoryContract } from '../../contracts';
-import { UserEntity } from '../../domain/user.entity';
-import { makeUserRepository } from '../../factories';
+import type { UserRepositoryContract } from '../../../contracts';
+import { UserEntity } from '../../../domain/user.entity';
+import { makeUserRepository } from '../../../factories';
 
 describe('UserRepository', () => {
   let clientDb: PrismaClient;
@@ -29,7 +29,7 @@ describe('UserRepository', () => {
   it('Should return null if user not found', async () => {
     const user = await repository.findOneOrNull({
       field: 'email',
-      values: 'johndoe@example.com',
+      value: 'johndoe@example.com',
     });
 
     expect(user).toBeNull();
@@ -47,7 +47,7 @@ describe('UserRepository', () => {
 
     const user = await repository.findOneOrNull({
       field: 'email',
-      values: 'johndoe@example.com',
+      value: 'johndoe@example.com',
     });
 
     expect(user).toBeInstanceOf(UserEntity);
@@ -64,12 +64,12 @@ describe('UserRepository', () => {
 
     const createdUser = await clientDb.user.findFirst({
       where: {
-        id: user.id.value,
+        id: user.id,
       },
     });
 
     expect(createdUser).toEqual({
-      id: user.id.value,
+      id: user.id,
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '@Password123',
@@ -85,7 +85,7 @@ describe('UserRepository', () => {
     try {
       await repository.findOne({
         field: 'email',
-        values: 'johndoe@example.com',
+        value: 'johndoe@example.com',
       });
     } catch (error) {
       expect(error).toBeInstanceOf(CustomHttpException);
@@ -107,7 +107,7 @@ describe('UserRepository', () => {
     await repository.create(user);
 
     const updatedUser = UserEntity.create({
-      id: user.id.value,
+      id: user.id,
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '@Password123',

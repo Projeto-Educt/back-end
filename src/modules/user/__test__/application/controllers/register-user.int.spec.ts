@@ -1,5 +1,5 @@
 import { makeValidatorFactory } from '@/main/factories/infra/make-validator.factory';
-import { CustomHttpException } from '@/main/helpers';
+import { CustomHttpException, create } from '@/main/helpers';
 import type { ValidatorContract } from '@/main/infra/contracts/validator.contract';
 import { RegisterUserController } from '@/modules/user/application/controllers';
 import type { RegisterUserUseCase } from '@/modules/user/application/usecases/register-user.usecase';
@@ -12,7 +12,9 @@ describe('RegisterUserController', () => {
 
   beforeEach(() => {
     validator = makeValidatorFactory(registerUserSchema);
-    usecaseMock = { execute: jest.fn() } as unknown as jest.Mocked<RegisterUserUseCase>;
+    usecaseMock = {
+      execute: jest.fn().mockReturnValue({ id: '1' }),
+    } as unknown as jest.Mocked<RegisterUserUseCase>;
     controller = new RegisterUserController(validator, usecaseMock);
   });
 
@@ -245,7 +247,7 @@ describe('RegisterUserController', () => {
     }
   });
 
-  it('Should call execute which correct values', async () => {
+  it('Should call execute which correct values and return 201', async () => {
     const data = {
       name: 'John Doe',
       email: 'johndoe@example.com',
@@ -253,7 +255,7 @@ describe('RegisterUserController', () => {
       confirmPassword: '@Test123',
     };
     const spyExecute = jest.spyOn(usecaseMock, 'execute');
-    await controller.execute({
+    const response = await controller.execute({
       query: { callbackUrl: 'http://localhost:3000/confirm' },
       body: data,
     });
@@ -263,5 +265,7 @@ describe('RegisterUserController', () => {
       password: '@Test123',
       callbackUrl: 'http://localhost:3000/confirm',
     });
+
+    expect(response).toEqual(create({ id: '1' }));
   });
 });

@@ -13,27 +13,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id        String    @id @default(uuid())
-  name      String
-  email     String    @unique
-  password  String
-  isActive  Boolean @map("is_active")
-  profile   Profile?
-  educationLevelId String? @map("education_level_id")
-  interestCourseId String? @map("interest_course_id")
-  interestUniversityId String? @map("interest_university_id")
+  id                   String   @id @default(uuid())
+  name                 String
+  email                String   @unique
+  password             String
+  isActive             Boolean  @map("is_active")
+  profile              Profile?
+  educationLevelId     String?  @map("education_level_id")
+  interestCourseId     String?  @map("interest_course_id")
+  interestUniversityId String?  @map("interest_university_id")
 
-
-  educationLevel EducationLevel? @relation(fields: [educationLevelId], references: [id])
-  interestCourses InterestCourse? @relation(fields: [interestCourseId], references: [id])
+  educationLevel       EducationLevel?     @relation(fields: [educationLevelId], references: [id])
+  interestCourses      InterestCourse?     @relation(fields: [interestCourseId], references: [id])
   interestUniversities InterestUniversity? @relation(fields: [interestUniversityId], references: [id])
 }
 
 model EducationLevel {
-  id        String    @id @default(uuid())
-  name      String
+  id   String @id @default(uuid())
+  name String @unique
 
   User User[]
 
@@ -41,8 +39,8 @@ model EducationLevel {
 }
 
 model InterestCourse {
-  id        String    @id @default(uuid())
-  name      String
+  id   String @id @default(uuid())
+  name String @unique
 
   User User[]
 
@@ -50,8 +48,8 @@ model InterestCourse {
 }
 
 model InterestUniversity {
-  id        String    @id @default(uuid())
-  name      String
+  id   String @id @default(uuid())
+  name String @unique
 
   User User[]
 

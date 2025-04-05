@@ -1,24 +1,30 @@
 import type { Entity } from '@/main/domain';
 
-export type FindFieldsProps = {
-  field: string;
-  values: string | number | boolean;
+type EntityValueTypes<E extends Entity> = {
+  [K in keyof E]: E[K];
 };
+
+export type FindFieldsProps<E extends Entity> = {
+  [K in keyof EntityValueTypes<E>]: {
+    field: K;
+    value: EntityValueTypes<E>[K];
+  };
+}[keyof EntityValueTypes<E>];
 
 export interface CreateRepoContract<E extends Entity> {
   create(entity: E): Promise<void>;
 }
 
 export interface FindOneRepoContract<E extends Entity> {
-  findOne(props: FindFieldsProps): Promise<E>;
+  findOne(props: FindFieldsProps<E>): Promise<E>;
 }
 
 export interface FindOneOrNullRepoContract<E extends Entity> {
-  findOneOrNull(props: FindFieldsProps): Promise<E | null>;
+  findOneOrNull(props: FindFieldsProps<E>): Promise<E | null>;
 }
 
 export interface FindAllRepoContract<E extends Entity> {
-  findAll(props?: FindFieldsProps): Promise<E[]>;
+  findAll(props?: FindFieldsProps<E>): Promise<E[]>;
 }
 
 export interface UpdateRepoContract<E extends Entity> {

@@ -1,6 +1,6 @@
 import type { Entity } from '@/main/domain';
 import { CustomError } from '@/main/errors';
-import type { FindFieldsProps, MemoryRepositoryContract } from '../contracts';
+import type { FindFieldsProps, MemoryRepositoryContract } from '@/main/infra/contracts';
 
 export abstract class RepositoryInMemory<E extends Entity> implements MemoryRepositoryContract<E> {
   data: E[] = [];
@@ -11,24 +11,30 @@ export abstract class RepositoryInMemory<E extends Entity> implements MemoryRepo
     return Promise.resolve();
   }
 
-  findOne({ field, values }: FindFieldsProps): Promise<E> {
-    const entity = this.data.find(entity => entity[field] === values);
+  findOne({ field, value }: FindFieldsProps<E>): Promise<E> {
+    const entity = this.data.find(entity => {
+      if (field === 'id') {
+        return entity.id === value;
+      }
+
+      return entity[field] === value;
+    });
 
     if (!entity) {
-      throw new CustomError(`${field}: ${values}, not found`);
+      throw new CustomError(`${field.toString()}: ${value}, not found`);
     }
     return Promise.resolve(entity);
   }
 
-  findOneOrNull({ field, values }: FindFieldsProps): Promise<E | null> {
-    const entity = this.data.find(entity => entity[field] === values);
+  findOneOrNull({ field, value }: FindFieldsProps<E>): Promise<E | null> {
+    const entity = this.data.find(entity => entity[field] === value);
     return Promise.resolve(entity || null);
   }
 
-  findAll(props?: FindFieldsProps): Promise<E[]> {
+  findAll(props?: FindFieldsProps<E>): Promise<E[]> {
     if (props) {
-      const { field, values } = props;
-      return Promise.resolve(this.data.filter(entity => entity[field] === values));
+      const { field, value } = props;
+      return Promise.resolve(this.data.filter(entity => entity[field] === value));
     }
     return Promise.resolve(this.data);
   }

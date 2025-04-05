@@ -88,7 +88,7 @@ describe('RegisterUserUseCase', () => {
 
     const user = await userRepository.findOne({
       field: 'email',
-      values: entity.email,
+      value: entity.email,
     });
 
     expect(user).toBeInstanceOf(UserEntity);
@@ -106,6 +106,7 @@ describe('RegisterUserUseCase', () => {
       name: 'John Doe',
       email: 'johndoe@example.com',
       callbackUrl: '',
+      id: expect.any(String),
     });
   });
 
@@ -119,5 +120,16 @@ describe('RegisterUserUseCase', () => {
 
     expect(dispatcher.dispatch).toHaveBeenCalledTimes(1);
     expect(dispatcher.dispatch).toHaveBeenCalledWith(event);
+  });
+
+  it('Should return id user', async () => {
+    const response = await sut.execute({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: '@Password123',
+      callbackUrl: '',
+    });
+
+    expect(response).toEqual({ id: expect.any(String) });
   });
 });

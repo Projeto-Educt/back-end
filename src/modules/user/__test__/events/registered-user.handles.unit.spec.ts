@@ -34,6 +34,7 @@ describe('SendEmailRegisteredUserHandler', () => {
 
   it('should send email with correct data', () => {
     const eventPayload = {
+      id: '1',
       name: 'Test User',
       email: 'test@example.com',
       callbackUrl: '/confirm',
@@ -48,7 +49,7 @@ describe('SendEmailRegisteredUserHandler', () => {
 
     handler.handle(event);
 
-    const expectedUrl = 'http://test.com/?' + encryptedUrl;
+    const expectedUrl = 'http://test.com/user/activate?token=' + encryptedUrl;
 
     expect(mailingServiceMock.send).toHaveBeenCalledWith({
       to: eventPayload.email,
@@ -65,6 +66,7 @@ describe('SendEmailRegisteredUserHandler', () => {
 
   it('should call cryptography with correct data', () => {
     const eventPayload = {
+      id: '1',
       name: 'Test User',
       email: 'test@example.com',
       callbackUrl: '/confirm',
@@ -77,12 +79,13 @@ describe('SendEmailRegisteredUserHandler', () => {
     handler.handle(event);
 
     expect(cryptographyMock.encrypt).toHaveBeenCalledWith(
-      `${eventPayload.email}--${eventPayload.callbackUrl}`,
+      `${eventPayload.email}--${eventPayload.callbackUrl}--${eventPayload.id}`,
     );
   });
 
   it('should not throw error if other data is not provided', () => {
     const eventPayload = {
+      id: '1',
       name: 'Test User',
       email: 'test@example.com',
       callbackUrl: '/confirm',
@@ -96,7 +99,7 @@ describe('SendEmailRegisteredUserHandler', () => {
 
     expect(() => handler.handle(event)).not.toThrow();
 
-    const expectedUrl = 'http://test.com/?' + encryptedUrl;
+    const expectedUrl = 'http://test.com/user/activate?token=' + encryptedUrl;
 
     expect(mailingServiceMock.send).toHaveBeenCalledWith({
       to: eventPayload.email,

@@ -37,7 +37,7 @@ describe('Entity', () => {
   it('Should create an ID if not provided', () => {
     const sut = makeSut(fakeProps);
 
-    expect(sut.id.value).toBeDefined();
+    expect(sut.id).toBeDefined();
   });
 
   it('Should not create an ID if provided', () => {
@@ -45,7 +45,7 @@ describe('Entity', () => {
 
     const sut = makeSut(fakeProps, id);
 
-    expect(sut.id.value).toBe(id.value);
+    expect(sut.id).toBe(id.value);
   });
 
   it('Should not return errors', () => {
@@ -137,7 +137,7 @@ describe('Entity', () => {
       const sut = makeSut(fakeProps);
 
       expect(sut.toJSON()).toEqual({
-        id: sut.id.value,
+        id: sut.id,
         ...fakeProps,
       });
     });

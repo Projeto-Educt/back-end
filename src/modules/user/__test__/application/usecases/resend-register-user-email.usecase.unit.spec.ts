@@ -59,6 +59,7 @@ describe('ResendRegisterUserEmailUseCase', () => {
       name: 'John Doe',
       email: 'johndoe@example.com',
       callbackUrl: '',
+      id: expect.any(String),
     });
   });
 

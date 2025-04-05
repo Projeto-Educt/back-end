@@ -8,11 +8,11 @@ import { UserEntity } from '@/modules/user/domain/user.entity';
 export class UserRepositoryInfra implements UserRepositoryContract {
   constructor(private readonly clientDb: ClientDb) {}
 
-  async findOneOrNull(props: FindFieldsProps): Promise<UserEntity | null> {
+  async findOneOrNull(props: FindFieldsProps<UserEntity>): Promise<UserEntity | null> {
     const user = await this.clientDb.user.findFirst({
       where: {
-        [props.field]: {
-          equals: props.values,
+        [props!.field]: {
+          equals: props!.value,
         },
       },
       select: {
@@ -29,7 +29,7 @@ export class UserRepositoryInfra implements UserRepositoryContract {
   async create(entity: UserEntity): Promise<void> {
     await this.clientDb.user.create({
       data: {
-        id: entity.id.value,
+        id: entity.id,
         name: entity.name,
         email: entity.email,
         password: entity.password,
@@ -38,11 +38,11 @@ export class UserRepositoryInfra implements UserRepositoryContract {
     });
   }
 
-  async findOne(props: FindFieldsProps): Promise<UserEntity> {
+  async findOne(props: FindFieldsProps<UserEntity>): Promise<UserEntity> {
     const user = await this.clientDb.user.findFirst({
       where: {
-        [props.field]: {
-          equals: props.values,
+        [props!.field]: {
+          equals: props!.value,
         },
       },
       select: {
@@ -64,7 +64,7 @@ export class UserRepositoryInfra implements UserRepositoryContract {
   async update(entity: UserEntity): Promise<void> {
     await this.clientDb.user.update({
       where: {
-        id: entity.id.value,
+        id: entity.id,
       },
       data: {
         name: entity.name,

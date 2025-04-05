@@ -10,7 +10,9 @@ type RegisterUserInput = CreateUserProps & {
   callbackUrl: string;
 };
 
-type RegisterUserOutput = void;
+type RegisterUserOutput = {
+  id: string;
+};
 
 export class RegisterUserUseCase implements UseCase<RegisterUserInput, RegisterUserOutput> {
   constructor(
@@ -23,7 +25,7 @@ export class RegisterUserUseCase implements UseCase<RegisterUserInput, RegisterU
 
     const userExists = await this.userRepository.findOneOrNull({
       field: 'email',
-      values: user.email,
+      value: user.email,
     });
 
     if (userExists) {
@@ -33,11 +35,12 @@ export class RegisterUserUseCase implements UseCase<RegisterUserInput, RegisterU
     await this.userRepository.create(user);
 
     this.event.setPayload({
+      id: user.id,
       name: user.name,
       email: user.email,
       callbackUrl: input.callbackUrl,
     });
     this.dispatcher.dispatch(this.event);
-    return;
+    return { id: user.id };
   }
 }

@@ -1,1 +1,1 @@
-export * from './infra/repository.contract';
+export * from './infra';

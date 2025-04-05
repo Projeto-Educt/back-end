@@ -20,6 +20,7 @@ export class NestRouterAdapter {
       body: request.body,
       params: request.params,
       query: request.query,
+      session: request.session,
     };
   }
 

@@ -1,4 +1,5 @@
 import { Entity, UniqueEntityId } from '@/main/domain';
+import { EDUCATION_LEVEL, INTEREST_COURSES, INTEREST_UNIVERSITIES } from '@/modules/user/constants';
 import { NameVo } from './value-objects/name.vo';
 
 export type userEntityProps = {
@@ -7,6 +8,9 @@ export type userEntityProps = {
   email: string;
   password: string;
   isActive: boolean;
+  interestCourse?: string;
+  interestUniversity?: string;
+  educationLevel?: string;
 };
 
 export type CreateUserProps = {
@@ -15,14 +19,21 @@ export type CreateUserProps = {
   email: string;
   password: string;
   isActive?: boolean;
+  interestCourse?: string;
+  interestUniversity?: string;
+  educationLevel?: string;
 };
 
+export type UpdateUserProps = Partial<Omit<CreateUserProps, 'id'>>;
+
 export class UserEntity extends Entity<userEntityProps> {
-  readonly name: string = this.props.name.value;
-  readonly nameVo: NameVo = this.props.name;
-  readonly email: string = this.props.email;
-  readonly password: string = this.props.password;
+  name: string = this.props.name.value;
+  email: string = this.props.email;
+  password: string = this.props.password;
   isActive: boolean = this.props.isActive;
+  interestCourse?: string = this.props.interestCourse;
+  interestUniversity?: string = this.props.interestUniversity;
+  educationLevel?: string = this.props.educationLevel;
 
   protected constructor(props: userEntityProps, id?: UniqueEntityId) {
     super(props, id);
@@ -32,6 +43,10 @@ export class UserEntity extends Entity<userEntityProps> {
     this.clearErrors();
 
     props.isActive = props.isActive || false;
+
+    this._educationLevel(props.educationLevel);
+    this._interestCourse(props.interestCourse);
+    this._interestUniversity(props.interestUniversity);
 
     const nameOrError = NameVo.create(props.name);
     const email = this._validateEmail(props.email);
@@ -46,6 +61,9 @@ export class UserEntity extends Entity<userEntityProps> {
         email,
         password,
         isActive: props.id ? props.isActive : false,
+        interestCourse: props.interestCourse,
+        interestUniversity: props.interestUniversity,
+        educationLevel: props.educationLevel,
       },
       UniqueEntityId.create(props.id),
     );
@@ -76,6 +94,21 @@ export class UserEntity extends Entity<userEntityProps> {
       );
 
     return passwordTrim;
+  }
+
+  private static _educationLevel(educationLevel?: string): void {
+    if (educationLevel && !EDUCATION_LEVEL.includes(educationLevel))
+      this.addMessageError('Por favor, insira um nível de ensino válido');
+  }
+
+  private static _interestCourse(interestCourse?: string): void {
+    if (interestCourse && !INTEREST_COURSES.includes(interestCourse))
+      this.addMessageError('Por favor, insira um curso de seu interesse');
+  }
+
+  private static _interestUniversity(interestUniversity?: string): void {
+    if (interestUniversity && !INTEREST_UNIVERSITIES.includes(interestUniversity))
+      this.addMessageError('Por favor, insira uma Faculdade de seu interesse');
   }
 
   public activate() {

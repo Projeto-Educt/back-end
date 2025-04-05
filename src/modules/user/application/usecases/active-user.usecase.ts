@@ -9,7 +9,7 @@ type Output = void;
 export class ActiveUserUseCase implements UseCase<Input, Output> {
   constructor(private readonly userRepository: ActiveUserRepoContract) {}
   async execute(input: Input): Promise<void> {
-    const user = await this.userRepository.findOne({ field: 'email', values: input.email });
+    const user = await this.userRepository.findOne({ field: 'email', value: input.email });
 
     user.activate();
 

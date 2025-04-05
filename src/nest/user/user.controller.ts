@@ -1,13 +1,22 @@
 import { makeNestRouter } from '@/main/factories/infra/make-nest-router.factory';
 import {
   makeActiveUserController,
+  makeListEducationLevelsController,
+  makeListInterestCourseController,
+  makeListInterestUniversitiesController,
   makeRegisterUserController,
   makeResendRegisterUserEmailController,
+  makeUpdateUserController,
 } from '@/modules/user/factories/application/controllers';
-import { Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Controller, Get, Post, Put, Req, Res, Session, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
-import { RegisterUserRoutesDto, ResendRegisterUserEmailRoutesDto } from './dto';
+import {
+  RegisterUserRoutesDto,
+  ResendRegisterUserEmailRoutesDto,
+  UpdateUserRoutesDto,
+} from './dto';
+import { AuthUser } from './guards/auth-user.guard';
 
 @ApiTags('user')
 @Controller('user')
@@ -55,7 +64,40 @@ export class UserController {
   @ApiResponse({ status: 400, description: 'Bad Request: Requisição inválida' })
   @ApiResponse({ status: 500, description: 'Internal Server Error' })
   async activate(@Req() req: Request, @Res() res: Response) {
-    const adapterNest = makeNestRouter(await makeActiveUserController());
+    const adapterNest = makeNestRouter(await makeActiveUserController(req));
+    await adapterNest.adapt(req, res);
+  }
+
+  @Put()
+  @UseGuards(AuthUser)
+  @ApiOperation({
+    summary: 'Atualiza um usuário',
+  })
+  @ApiBody({ type: UpdateUserRoutesDto })
+  @ApiResponse({ status: 204, description: 'Sucesso: Usuário Atualizado' })
+  @ApiResponse({ status: 400, description: 'Bad Request: Requisição inválida' })
+  @ApiResponse({ status: 500, description: 'Internal Server Error' })
+  async update(@Session() session: any, @Req() req: Request, @Res() res: Response) {
+    // req.session = session;
+    const adapterNest = makeNestRouter(await makeUpdateUserController());
+    await adapterNest.adapt(req, res);
+  }
+
+  @Get('/education-levels')
+  async getEducationLevels(@Req() req: Request, @Res() res: Response) {
+    const adapterNest = makeNestRouter(await makeListEducationLevelsController());
+    await adapterNest.adapt(req, res);
+  }
+
+  @Get('/interest-courses')
+  async getInterestCourses(@Req() req: Request, @Res() res: Response) {
+    const adapterNest = makeNestRouter(await makeListInterestCourseController());
+    await adapterNest.adapt(req, res);
+  }
+
+  @Get('/interest-universities')
+  async getInterestUniversities(@Req() req: Request, @Res() res: Response) {
+    const adapterNest = makeNestRouter(await makeListInterestUniversitiesController());
     await adapterNest.adapt(req, res);
   }
 }

@@ -6,6 +6,7 @@ import type { MailingContract } from '@/main/infra/contracts/mailing.contract';
 import type { RegisteredUserEvent } from '@/modules/user/events/registered-user.events';
 import { makeCryptographyUserAdapter } from '@/modules/user/factories/adapter/cryptography.factory';
 import { templateEmailRegisteredUser } from '@/modules/user/templates/register-user';
+
 export class SendEmailRegisteredUserHandler implements HandlerContract<RegisteredUserEvent> {
   private readonly mailingService: MailingContract;
   private readonly templateEmail: string;
@@ -18,9 +19,9 @@ export class SendEmailRegisteredUserHandler implements HandlerContract<Registere
     this.backEndUrl = USER_ENV.backEndUrl;
   }
   handle(event: RegisteredUserEvent): void {
-    const { email, callbackUrl, ...rest } = event.getPayload();
+    const { id, email, callbackUrl, ...rest } = event.getPayload();
 
-    const url = `${this.backEndUrl}/?${this.cryptography.encrypt(`${email}--${callbackUrl}`)}`;
+    const url = `${this.backEndUrl}/user/activate?token=${this.cryptography.encrypt(`${email}--${callbackUrl}--${id}`)}`;
 
     this.mailingService.send({
       to: email,

@@ -38,7 +38,7 @@ describe('ResendRegisterUserEmailUseCase', () => {
       email: 'johndoe@example.com',
     });
 
-    const user = await userRepository.findOne({ field: 'email', values: 'johndoe@example.com' });
+    const user = await userRepository.findOne({ field: 'email', value: 'johndoe@example.com' });
 
     expect(user.isActive).toBe(true);
   });

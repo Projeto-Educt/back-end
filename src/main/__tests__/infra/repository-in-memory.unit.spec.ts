@@ -39,7 +39,7 @@ describe('RepositoryInMemory', () => {
   });
 
   it('should be able to find or return null', async () => {
-    const result = await repository.findOneOrNull({ field: 'name', values: 'John Doe' });
+    const result = await repository.findOneOrNull({ field: 'name', value: 'John Doe' });
     expect(result).toBeNull();
   });
 
@@ -50,19 +50,19 @@ describe('RepositoryInMemory', () => {
     });
 
     it('should be able to find an entity', async () => {
-      const result = await repository.findOne({ field: 'name', values: 'John Doe' });
+      const result = await repository.findOne({ field: 'name', value: 'John Doe' });
       expect(result).toEqual(entity);
     });
 
     it('Should throw an error if entity not found', async () => {
-      const props = { field: 'name', values: 'John Doe2' };
+      const props = { field: 'name', value: 'John Doe2' };
       try {
-        await repository.findOne(props);
+        await repository.findOne({ field: props.field as any, value: props.value });
       } catch (error) {
         expect(error).toBeInstanceOf(CustomError);
 
         expect((error as CustomError).messages).toEqual([
-          `${props.field}: ${props.values}, not found`,
+          `${props.field}: ${props.value}, not found`,
         ]);
       }
     });
@@ -86,7 +86,7 @@ describe('RepositoryInMemory', () => {
     });
 
     it('Should return all results by fields received', async () => {
-      const result = await repository.findAll({ field: 'name', values: 'John Doe' });
+      const result = await repository.findAll({ field: 'name', value: 'John Doe' });
       expect(result).toEqual(entities.filter(entity => entity.name === 'John Doe'));
     });
   });

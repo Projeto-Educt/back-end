@@ -23,10 +23,11 @@ export class ResendEmailRegisterUserUseCase
   ): Promise<ResendEmailRegisterUserUseCaseOutput> {
     const user = await this.userRepository.findOne({
       field: 'email',
-      values: input.email,
+      value: input.email,
     });
 
     this.event.setPayload({
+      id: user.id,
       name: user.name,
       email: user.email,
       callbackUrl: input.callbackUrl,

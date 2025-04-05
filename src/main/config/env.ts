@@ -17,6 +17,9 @@ switch (nodeEnv.toLowerCase()) {
 export const SERVER_ENV = {
   nodeEnv,
   port: process.env.PORT || 3000,
+  secretSession: process.env.SECRET_SESSION || 'secret',
+  cookieSecure: process.env.COOKIE_SECURE === 'true',
+  cookieMaxAge: Number(process.env.COOKIE_MAX_AGE) || 5 * 0 * 1000,
 };
 
 export const EMAILS_ENV = {
