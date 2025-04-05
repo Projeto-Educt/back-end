@@ -27,7 +27,7 @@
     "prepare": "husky",
     "prisma:seed": "ts-node src/main/infra/repositories/prisma/seeds/index.ts",
     "prisma:init": "npx prisma generate && npx prisma migrate deploy && npm run prisma:seed",
-    "start:prod": "NODE_ENV=production npm run prisma:init && node dist/nest/main"
+    "start:prod": "NODE_ENV=production npm run prisma:init && node dist/nest/main.js"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
