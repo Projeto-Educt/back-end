@@ -3,6 +3,7 @@ export type ControllerRequestType = {
   body?: any;
   params?: any;
   query?: any;
+  session?: any;
 };
 
 export type ControllerResponseType = {

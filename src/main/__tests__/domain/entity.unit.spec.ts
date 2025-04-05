@@ -37,7 +37,7 @@ describe('Entity', () => {
   it('Should create an ID if not provided', () => {
     const sut = makeSut(fakeProps);
 
-    expect(sut.id.value).toBeDefined();
+    expect(sut.id).toBeDefined();
   });
 
   it('Should not create an ID if provided', () => {
@@ -45,7 +45,7 @@ describe('Entity', () => {
 
     const sut = makeSut(fakeProps, id);
 
-    expect(sut.id.value).toBe(id.value);
+    expect(sut.id).toBe(id.value);
   });
 
   it('Should not return errors', () => {
@@ -137,9 +137,50 @@ describe('Entity', () => {
       const sut = makeSut(fakeProps);
 
       expect(sut.toJSON()).toEqual({
-        id: sut.id.value,
+        id: sut.id,
         ...fakeProps,
       });
+    });
+  });
+
+  describe('addMessageError', () => {
+    it('Should add a message error', () => {
+      class EntityStub extends Entity<Props> {
+        constructor(props: Props, id?: UniqueEntityId) {
+          super(props, id);
+        }
+
+        static create(props: Props): EntityStub {
+          this.clearErrors();
+          EntityStub.addMessageError('Name is required');
+          const entity = new EntityStub(props);
+
+          return entity;
+        }
+      }
+
+      EntityStub.create(fakeProps);
+
+      expect(EntityStub.error).toEqual(new CustomError(['Name is required']));
+    });
+    it('Should add many messages error', () => {
+      class EntityStub extends Entity<Props> {
+        constructor(props: Props, id?: UniqueEntityId) {
+          super(props, id);
+        }
+
+        static create(props: Props): EntityStub {
+          this.clearErrors();
+          EntityStub.addMessageError(['Name is required', 'Age is required']);
+          const entity = new EntityStub(props);
+
+          return entity;
+        }
+      }
+
+      EntityStub.create(fakeProps);
+
+      expect(EntityStub.error).toEqual(new CustomError(['Name is required', 'Age is required']));
     });
   });
 });

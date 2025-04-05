@@ -1,3 +1,3 @@
 const config = require('./jest.config');
-config.testMatch = ['**/*.integration.spec.ts'];
+config.testMatch = ['**/*.int.spec.ts'];
 module.exports = config;

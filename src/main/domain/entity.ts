@@ -4,14 +4,18 @@ import { UniqueEntityId } from './value-objects/unique-entity-id';
 
 type Props = Record<string, any>;
 
-export abstract class Entity<T extends Props> {
+export abstract class Entity<T extends Props = Props> {
   private static _messagesError: string[] = [];
   private readonly _props: T;
-  readonly id: UniqueEntityId;
+  private readonly _id: UniqueEntityId;
 
   protected constructor(props: T, id?: UniqueEntityId) {
-    this.id = id ?? UniqueEntityId.create();
+    this._id = id ?? UniqueEntityId.create();
     this._props = props;
+  }
+
+  get id(): string {
+    return this._id.value;
   }
 
   static get error(): CustomError | null {
@@ -57,7 +61,7 @@ export abstract class Entity<T extends Props> {
 
   toJSON(): Required<{ id: string } & T> {
     return {
-      id: this.id.value,
+      id: this._id.value,
       ...this.props,
     } as unknown as Required<{ id: string } & T>;
   }
